@@ -6,9 +6,10 @@
 <title>Teachers Help Teachers</title>
 
 <style>
+
 body{
     margin:0;
-    font-family:Segoe UI,Arial,sans-serif;
+    font-family:'Segoe UI',sans-serif;
     background:#f4f8fb;
     color:#222;
 }
@@ -16,8 +17,8 @@ body{
 header{
     background:linear-gradient(135deg,#0078d4,#00b7c3);
     color:white;
-    padding:50px 20px;
     text-align:center;
+    padding:60px 20px;
 }
 
 header h1{
@@ -26,47 +27,67 @@ header h1{
 }
 
 header p{
+    margin-top:15px;
     font-size:1.2rem;
-    max-width:800px;
-    margin:15px auto;
 }
 
 .container{
-    max-width:1100px;
+    max-width:1200px;
     margin:auto;
     padding:30px 20px;
 }
 
-.github-link{
+.repo-link{
     text-align:center;
     margin-bottom:30px;
 }
 
-.github-link a{
+.repo-link a{
     display:inline-block;
-    background:#24292e;
+    background:#24292f;
     color:white;
     text-decoration:none;
-    padding:12px 20px;
+    padding:12px 22px;
     border-radius:8px;
     font-weight:bold;
 }
 
+.repo-link a:hover{
+    background:#000;
+}
+
 #search{
     width:100%;
-    padding:15px;
+    padding:16px;
     font-size:18px;
     border-radius:8px;
     border:1px solid #ccc;
-    margin-bottom:30px;
     box-sizing:border-box;
+    margin-bottom:30px;
 }
 
 .resources{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
     gap:20px;
 }
 
 .resource{
-    background:white
+    background:white;
+    border-radius:12px;
+    padding:25px;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+    transition:.2s;
+}
+
+.resource:hover{
+    transform:translateY(-5px);
+}
+
+.resource h2{
+    margin-top:0;
+}
+
+.tag{
+    display:inline-block;
+    background

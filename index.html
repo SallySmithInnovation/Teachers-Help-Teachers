@@ -1,29 +1,225 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Teachers Help Teachers</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teachers Help Teachers</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Segoe UI, Arial, sans-serif;
+    background: #f4f8fb;
+    color: #333;
+}
+
+header {
+    background: linear-gradient(135deg, #0078d4, #00b7c3);
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 3rem;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.repo-button {
+    display: inline-block;
+    background: #24292f;
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+#search {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+}
+
+.resources {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+.tag {
+    display: inline-block;
+    background: #e8f2ff;
+    color: #005a9e;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+}
+
+.button {
+    display: inline-block;
+    background: #0078d4;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.button:hover {
+    background: #005fa3;
+}
+
+footer {
+    text-align: center;
+    color: #666;
+    padding: 30px;
+}
+</style>
 </head>
+
 <body>
 
-<h1>Teachers Help Teachers</h1>
+<header>
+    <h1>🍎 Teachers Help Teachers</h1>
+    <div class="subtitle">
+        Practical ideas, resources and innovations shared by teachers, for teachers.
+    </div>
+</header>
 
-<p>
-<a href="sacred-spaces-garden-game.html">
-🌱 Sacred Spaces Garden Game
-</a>
-</p>
+<div class="container">
 
-<p>
-<a href="Number_Adventure_Island_Grade2_FIXED.html">
-🏝️ Number Adventure Island
-</a>
-</p>
+    <p style="text-align:center;">
+        <a class="repo-button"
+           href="https://github.com/SallySmithInnovation/Teachers-Help-Teachers"
+           target="_blank">
+           📂 Visit the GitHub Repository
+        </a>
+    </p>
 
-<p>
-<a href="https://github.com/SallySmithInnovation/Teachers-Help-Teachers">
-GitHub Repository
-</a>
-</p>
+    <input
+        type="text"
+        id="search"
+        placeholder="🔍 Search resources..."
+        onkeyup="searchResources()">
+
+    <div class="resources">
+
+        <div class="card resource">
+            <h2>☃️ Interactive Attendance Board</h2>
+
+            <p>
+                A fun classroom attendance activity built in PowerPoint.
+            </p>
+
+            <span class="tag">Microsoft</span>
+            <span class="tag">Attendance</span>
+            <span class="tag">Classroom Fun</span>
+
+            <p>
+                <a class="button"
+                   href="https://github.com/SallySmithInnovation/Teachers-Help-Teachers"
+                   target="_blank">
+                   📊 View Resource
+                </a>
+            </p>
+        </div>
+
+        <div class="card resource">
+            <h2>🌱 Sacred Spaces Garden Game</h2>
+
+            <p>
+                Explore, collect and learn in a colourful interactive garden.
+            </p>
+
+            <span class="tag">Game</span>
+            <span class="tag">Learning</span>
+            <span class="tag">Interactive</span>
+
+            <p>
+                <a class="button"
+                   href="sacred-spaces-garden-game.html">
+                   🎮 Play Game
+                </a>
+            </p>
+        </div>
+
+        <div class="card resource">
+            <h2>🏝️ Number Adventure Island</h2>
+
+            <p>
+                A bright Grade 2 math game focused on counting and number skills.
+            </p>
+
+            <span class="tag">Math</span>
+            <span class="tag">Grade 2</span>
+            <span class="tag">Game</span>
+
+            <p>
+                <a class="button"
+                   href="Number_Adventure_Island_Grade2_FIXED.html">
+                   🎮 Play Game
+                </a>
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    ❤️ Made by educators. Shared with educators.
+</footer>
+
+<script>
+function searchResources() {
+    const search =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+    const resources =
+        document.querySelectorAll(".resource");
+
+    resources.forEach(resource => {
+        if (resource.innerText.toLowerCase().includes(search)) {
+            resource.style.display = "";
+        } else {
+            resource.style.display = "none";
+        }
+    });
+}
+</script>
 
 </body>
 </html>
+``

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Number Adventure Island</title>
+<style>
+:root{--red:#ef3340;--blue:#0067e5;--yellow:#ffd400;--green:#21b573;--ink:#172554;--white:#fff;--shadow:0 8px 0 rgba(23,37,84,.16)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;overflow-x:hidden;background:#93ddff;font-family:"Trebuchet MS",Arial,sans-serif;color:var(--ink)}
+body{background:linear-gradient(#72d6ff 0 42%,#5fd36f 42% 100%)}
+button{font:inherit;touch-action:manipulation}
+.game{width:min(100%,980px);min-height:100vh;margin:auto;padding:8px;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.top{display:grid;grid-template-columns:1.4fr repeat(4,minmax(0,.7fr));gap:6px;align-items:center}
+.brand,.stat{background:white;border:3px solid var(--ink);border-radius:18px;box-shadow:0 4px 0 rgba(23,37,84,.16);min-width:0}
+.brand{padding:8px 10px;font-weight:1000;font-size:clamp(16px,3.2vw,26px);color:var(--blue);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat{padding:6px;text-align:center;font-weight:900;font-size:clamp(12px,2.4vw,18px)}
+.stat span{display:block;font-size:clamp(17px,3.5vw,25px)}
+.world{position:relative;flex:1;min-height:0;background:linear-gradient(#78d9ff 0 55%,#20b9e9 55% 100%);border:4px solid var(--ink);border-radius:25px;box-shadow:var(--shadow);overflow:hidden;padding:10px;display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,.8fr);gap:10px}
+.world:before{content:"☀️";position:absolute;right:4%;top:2%;font-size:50px;filter:drop-shadow(0 4px 0 #fff)}
+.play{position:relative;z-index:1;background:rgba(255,255,255,.94);border:4px solid var(--blue);border-radius:22px;padding:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;min-width:0}
+.zone{display:inline-flex;align-items:center;gap:7px;background:var(--yellow);border:3px solid var(--ink);border-radius:999px;padding:5px 12px;font-size:clamp(14px,2.7vw,20px);font-weight:1000}
+.prompt{margin:7px 0 2px;text-align:center;font-weight:1000;font-size:clamp(20px,4.3vw,34px)}
+.visual{width:100%;min-height:105px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:5px;padding:7px;font-size:clamp(28px,5.1vw,48px);line-height:1.05;overflow:hidden}
+.answers{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.answer{min-height:62px;border:4px solid var(--ink);border-radius:18px;color:white;font-weight:1000;font-size:clamp(25px,5vw,40px);box-shadow:0 6px 0 var(--ink);cursor:pointer}
+.answer:nth-child(1){background:var(--red)}.answer:nth-child(2){background:var(--blue)}.answer:nth-child(3){background:var(--green)}
+.answer:active{transform:translateY(5px);box-shadow:0 1px 0 var(--ink)}
+.side{position:relative;z-index:1;display:flex;flex-direction:column;gap:8px;min-width:0}
+.guide,.progress,.badges{background:white;border:4px solid var(--red);border-radius:22px;padding:9px;text-align:center;font-weight:900}
+.guide{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:130px}.animal{font-size:clamp(48px,9vw,78px)}
+.speech{background:#fff7b1;border:3px solid var(--ink);border-radius:16px;padding:7px;font-size:clamp(14px,2.2vw,18px)}
+.bar{height:20px;background:#dbeafe;border:3px solid var(--ink);border-radius:999px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--yellow));transition:.3s}
+.badgeRow{font-size:clamp(24px,4vw,34px);letter-spacing:3px;min-height:38px}
+.controls{display:flex;gap:6px}.small{flex:1;border:3px solid var(--ink);border-radius:14px;background:white;padding:8px;font-weight:1000;color:var(--ink);cursor:pointer}
+.overlay{position:fixed;inset:0;background:rgba(23,37,84,.72);display:flex;align-items:center;justify-content:center;padding:15px;z-index:10}
+.panel{width:min(94vw,650px);max-height:92vh;overflow:auto;background:white;border:5px solid var(--ink);border-radius:28px;padding:18px;text-align:center;box-shadow:0 12px 0 rgba(0,0,0,.25)}
+.panel h1{font-size:clamp(30px,7vw,52px);color:var(--blue);margin:3px}.panel p{font-size:clamp(17px,3.5vw,23px)}
+.name{width:min(100%,350px);font-size:24px;padding:12px;border:4px solid var(--blue);border-radius:15px;text-align:center}
+.go{display:block;width:min(100%,360px);margin:13px auto 4px;padding:14px;border:4px solid var(--ink);border-radius:18px;background:var(--yellow);box-shadow:0 7px 0 var(--ink);font-size:27px;font-weight:1000;cursor:pointer}.go:active{transform:translateY(5px);box-shadow:0 2px 0 var(--ink)}
+.hidden{display:none!important}.celebrate{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}.confetti{position:absolute;top:-30px;font-size:26px;animation:fall 1.5s linear forwards}@keyframes fall{to{transform:translateY(110vh) rotate(500deg)}}
+.ten{display:grid;grid-template-columns:repeat(5,42px);grid-template-rows:repeat(2,42px);gap:4px;background:white;border:4px solid var(--ink);padding:4px}.cell{border:2px solid var(--ink);display:grid;place-items:center}.dot{width:29px;height:29px;border-radius:50%;background:var(--red)}
+.sequence{font-size:clamp(30px,7vw,58px);font-weight:1000;letter-spacing:3px}.compare{display:flex;align-items:center;gap:14px;font-size:clamp(44px,9vw,76px);font-weight:1000}.numberCard{padding:6px 15px;border:4px solid var(--ink);border-radius:18px;background:var(--yellow)}
+@media(max-width:650px){.game{height:100dvh;min-height:560px}.top{grid-template-columns:1.5fr repeat(4,.65fr)}.brand{font-size:14px;padding:7px}.stat{font-size:10px;padding:4px}.stat span{font-size:16px}.world{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}.side{display:grid;grid-template-columns:1.3fr 1fr;gap:6px}.guide{grid-row:span 2;min-height:105px}.animal{font-size:45px}.badges{padding:5px}.badgeRow{font-size:23px;min-height:26px}.progress{padding:5px}.visual{min-height:90px}.answer{min-height:55px}.controls{display:none}.world:before{font-size:34px}.ten{grid-template-columns:repeat(5,34px);grid-template-rows:repeat(2,34px)}.cell{width:34px;height:34px}.dot{width:23px;height:23px}}
+@media(max-width:390px){.top{grid-template-columns:1.5fr repeat(4,.6fr)}.brand{font-size:12px}.stat{font-size:0}.stat span{font-size:14px}.world{padding:6px}.play{padding:6px}.prompt{font-size:19px}.visual{font-size:29px;min-height:82px}.answer{font-size:25px;min-height:49px}.speech{font-size:12px;padding:4px}.animal{font-size:38px}.side{grid-template-columns:1.2fr 1fr}.ten{grid-template-columns:repeat(5,29px);grid-template-rows:repeat(2,29px)}.cell{width:29px;height:29px}.dot{width:20px;height:20px}}
+</style>
+</head>
+<body>
+<div class="game">
+  <div class="top">
+    <div class="brand">🏝️ Number Adventure Island</div>
+    <div class="stat">⭐<span id="score">0</span></div>
+    <div class="stat">🪙<span id="coins">0</span></div>
+    <div class="stat">🔥<span id="streak">0</span></div>
+    <div class="stat">🏆<span id="best">0</span></div>
+  </div>
+  <main class="world">
+    <section class="play">
+      <div class="zone" id="zone">🔴 Red Castle</div>
+      <div class="prompt" id="prompt">Count the objects!</div>
+      <div class="visual" id="visual"></div>
+      <div class="answers" id="answers"></div>
+    </section>
+    <aside class="side">
+      <div class="guide"><div class="animal" id="animal">🐵</div><div class="speech" id="speech">Let’s explore numbers!</div></div>
+      <div class="progress"><div>Next animal</div><div class="bar"><div class="fill" id="fill"></div></div></div>
+      <div class="badges"><div>Badges</div><div class="badgeRow" id="badges">🔒 🔒 🔒 🔒</div></div>
+      <div class="controls"><button type="button" class="small" onclick="toggleSound()" id="soundBtn">🔊 Sound</button><button type="button" class="small" onclick="showScores()">🏆 Scores</button><button type="button" class="small" onclick="resetGame()">↻ New</button></div>
+    </aside>
+  </main>
+</div>
+<div class="overlay" id="start"><div class="panel"><h1>🌈 Number Adventure Island!</h1><div style="font-size:70px">🏰 🐵 🌴 🐳</div><p>Count, compare, add, and follow number paths. Earn stars and unlock animal friends!</p><input id="player" class="name" maxlength="14" placeholder="Your first name" autocomplete="off"><button type="button" class="go" onclick="begin()">▶ Start Adventure</button><p style="font-size:14px">No sign-in. Scores stay only on this device.</p></div></div>
+<div class="overlay hidden" id="scorePanel"><div class="panel"><h1>🏆 Island Scores</h1><div id="scoreList"></div><button type="button" class="go" onclick="closeScores()">Back to the Island</button></div></div>
+<div class="celebrate" id="celebrate"></div>
+<script>
+'use strict';
+let score=0,coins=0,streak=0,correct=0,answer=0,soundOn=true,locked=false,player='Explorer';
+const friends=['🐵','🦜','🐸','🦁','🐼','🦄','🐳','🐲'];
+const praise=['Fantastic!','Super counting!','Amazing math brain!','You found it!','Brilliant!','Number power!'];
+const items=['⭐','🍎','🎈','🐞','🐟','🦋','🍓','⚽'];
+const zones=[['🔴 Red Castle','#ef3340'],['🟡 Yellow Jungle','#ffd400'],['🔵 Blue Ocean','#0067e5']];
+const $=id=>document.getElementById(id);
+function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function shuffle(a){for(let i=a.length-1;i;i--){let j=rand(0,i);[a[i],a[j]]=[a[j],a[i]]}return a}
+function begin(){player=$('player').value.trim()||'Explorer';$('start').classList.add('hidden');loadBest();newQuestion()}
+function getScores(){try{return JSON.parse(window.localStorage.getItem('numberIslandScores')||'[]')}catch(e){return []}}
+function putScores(list){try{window.localStorage.setItem('numberIslandScores',JSON.stringify(list))}catch(e){}}
+function loadBest(){let list=getScores();$('best').textContent=(list[0]&&list[0].score)||0}
+function choices(right,max=30){let a=[right];while(a.length<3){let n=Math.max(0,Math.min(max,right+rand(-4,4)));if(!a.includes(n))a.push(n)}return shuffle(a)}
+function setAnswers(arr){$('answers').innerHTML='';arr.forEach(n=>{let b=document.createElement('button');b.className='answer';b.textContent=n;b.onclick=()=>check(n);$('answers').appendChild(b)})}
+function newQuestion(){locked=false;$('speech').textContent=`Your turn, ${player}!`;$('zone').textContent=zones[Math.floor(correct/5)%3][0];let type=rand(0,5);if(type===0)countObjects();else if(type===1)tenFrame();else if(type===2)sequence();else if(type===3)compare();else if(type===4)addition();else diceMatch()}
+function countObjects(){let n=rand(3,20),icon=items[rand(0,items.length-1)];answer=n;$('prompt').textContent='How many do you see?';$('visual').innerHTML=Array(n).fill(`<span>${icon}</span>`).join('');setAnswers(choices(n,20))}
+function tenFrame(){let n=rand(1,10);answer=n;$('prompt').textContent='How many dots are in the ten-frame?';let h='<div class="ten">';for(let i=0;i<10;i++)h+=`<div class="cell">${i<n?'<div class="dot"></div>':''}</div>`;$('visual').innerHTML=h+'</div>';setAnswers(choices(n,10))}
+function sequence(){let start=rand(0,16),step=Math.random()<.25?2:1,blank=rand(1,3),nums=[];for(let i=0;i<4;i++)nums.push(start+i*step);answer=nums[blank];nums[blank]='?';$('prompt').textContent=step===2?'Count by 2s. What is missing?':'What number is missing?';$('visual').innerHTML=`<div class="sequence">${nums.join(' , ')}</div>`;setAnswers(choices(answer,25))}
+function compare(){let a=rand(1,30),b=rand(1,30);while(a===b)b=rand(1,30);answer=Math.max(a,b);$('prompt').textContent='Which number is greater?';$('visual').innerHTML=`<div class="compare"><span class="numberCard">${a}</span><span>or</span><span class="numberCard">${b}</span></div>`;setAnswers(shuffle([a,b,Math.min(30,Math.max(a,b)+1)]))}
+function addition(){let a=rand(1,10),b=rand(1,10);answer=a+b;$('prompt').textContent='How many altogether?';$('visual').innerHTML=`<div class="sequence">${a} + ${b} = ?</div>`;setAnswers(choices(answer,20))}
+function diceMatch(){let n=rand(1,6),faces=['','⚀','⚁','⚂','⚃','⚄','⚅'];answer=n;$('prompt').textContent='What number is on the dice?';$('visual').innerHTML=`<div style="font-size:100px">${faces[n]}</div>`;setAnswers(choices(n,8))}
+function check(n){if(locked)return;if(n===answer){locked=true;score+=10+streak*2;coins+=3;streak++;correct++;$('score').textContent=score;$('coins').textContent=coins;$('streak').textContent=streak;$('speech').textContent=praise[rand(0,praise.length-1)];$('fill').style.width=(correct%5)*20+'%';if(correct%5===0)unlock();updateBadges();tone(660);confetti();setTimeout(newQuestion,900)}else{streak=0;$('streak').textContent=0;$('speech').textContent='Good try! Look carefully and try again.';tone(220)}}
+function unlock(){$('animal').textContent=friends[Math.min(Math.floor(correct/5),friends.length-1)];$('speech').textContent='New animal friend unlocked!';$('fill').style.width='100%';coins+=10;$('coins').textContent=coins;setTimeout(()=>$('fill').style.width='0%',700);saveScore()}
+function updateBadges(){let b=['🔒','🔒','🔒','🔒'];if(correct>=3)b[0]='🥉';if(correct>=8)b[1]='⭐';if(correct>=15)b[2]='👑';if(correct>=25)b[3]='🏆';$('badges').textContent=b.join(' ')}
+function confetti(){let box=$('celebrate'),bits=['🎉','⭐','🔴','🟡','🔵'];for(let i=0;i<22;i++){let s=document.createElement('span');s.className='confetti';s.textContent=bits[rand(0,bits.length-1)];s.style.left=rand(0,100)+'vw';s.style.animationDelay=(Math.random()*.35)+'s';box.appendChild(s);setTimeout(()=>s.remove(),1900)}}
+function tone(freq){if(!soundOn)return;try{let A=window.AudioContext||window.webkitAudioContext,c=new A(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=freq;g.gain.setValueAtTime(.12,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.18);o.start();o.stop(c.currentTime+.18)}catch(e){}}
+function toggleSound(){soundOn=!soundOn;$('soundBtn').textContent=soundOn?'🔊 Sound':'🔇 Sound'}
+function saveScore(){let list=getScores();list.push({name:player,score:score});list.sort(function(a,b){return b.score-a.score});list=list.slice(0,5);putScores(list);loadBest()}
+function showScores(){saveScore();let list=getScores();$('scoreList').innerHTML=list.length?list.map((x,i)=>`<p style="font-size:24px;font-weight:900">${i+1}. ${safe(x.name)} — ${x.score} ⭐</p>`).join(''):'<p>No scores yet.</p>';$('scorePanel').classList.remove('hidden')}
+function safe(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function closeScores(){$('scorePanel').classList.add('hidden')}
+function resetGame(){saveScore();score=coins=streak=correct=0;['score','coins','streak'].forEach(id=>$(id).textContent=0);$('animal').textContent='🐵';$('badges').textContent='🔒 🔒 🔒 🔒';newQuestion()}
+window.addEventListener('beforeunload',function(){if(score>0)saveScore()});loadBest();
+</script>
+</body>
+</html>

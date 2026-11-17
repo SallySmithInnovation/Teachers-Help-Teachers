@@ -4,222 +4,139 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teachers Help Teachers</title>
-
 <style>
-body {
-    margin: 0;
-    font-family: Segoe UI, Arial, sans-serif;
-    background: #f4f8fb;
-    color: #333;
-}
-
-header {
-    background: linear-gradient(135deg, #0078d4, #00b7c3);
-    color: white;
-    text-align: center;
-    padding: 50px 20px;
-}
-
-h1 {
-    margin: 0;
-    font-size: 3rem;
-}
-
-.subtitle {
-    font-size: 1.2rem;
-    margin-top: 10px;
-}
-
-.container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 30px 20px;
-}
-
-.repo-button {
-    display: inline-block;
-    background: #24292f;
-    color: white;
-    text-decoration: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-weight: bold;
-    margin-bottom: 25px;
-}
-
-#search {
-    width: 100%;
-    padding: 15px;
-    font-size: 18px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    margin-bottom: 30px;
-}
-
-.resources {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-}
-
-.card {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.card h2 {
-    margin-top: 0;
-}
-
-.tag {
-    display: inline-block;
-    background: #e8f2ff;
-    color: #005a9e;
-    padding: 4px 10px;
-    border-radius: 15px;
-    font-size: 12px;
-    margin-right: 5px;
-    margin-bottom: 10px;
-}
-
-.button {
-    display: inline-block;
-    background: #0078d4;
-    color: white;
-    text-decoration: none;
-    padding: 10px 15px;
-    border-radius: 8px;
-    margin-top: 10px;
-}
-
-.button:hover {
-    background: #005fa3;
-}
-
-footer {
-    text-align: center;
-    color: #666;
-    padding: 30px;
-}
+  body { margin:0; font-family:Segoe UI,Arial,sans-serif; background:#f4f8fb; color:#333; }
+  header { background:linear-gradient(135deg,#0078d4,#00b7c3); color:white; text-align:center; padding:50px 20px; }
+  h1 { margin:0; font-size:3rem; }
+  .subtitle { font-size:1.2rem; margin-top:10px; }
+  .container { max-width:1100px; margin:auto; padding:30px 20px; }
+  .repo-button { display:inline-block; background:#24292f; color:white; text-decoration:none; padding:12px 20px; border-radius:8px; font-weight:bold; margin-bottom:25px; }
+  #search { width:100%; padding:15px; font-size:18px; border-radius:8px; border:1px solid #ccc; box-sizing:border-box; margin-bottom:20px; }
+  .resources { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr)); gap:20px; }
+  .card { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,.1); }
+  .card h3 { margin-top:0; overflow-wrap:anywhere; }
+  .tag { display:inline-block; background:#e8f2ff; color:#005a9e; padding:4px 10px; border-radius:15px; font-size:12px; margin-right:5px; margin-bottom:10px; }
+  .button { display:inline-block; background:#0078d4; color:white; text-decoration:none; padding:10px 15px; border-radius:8px; margin-top:10px; }
+  .button:hover,.button:focus-visible { background:#005fa3; }
+  .section-title { margin:32px 0 18px; }
+  .status { color:#555; margin:12px 0 20px; }
+  footer { text-align:center; color:#666; padding:30px; }
 </style>
 </head>
-
 <body>
-
 <header>
-    <h1>🍎 Teachers Help Teachers</h1>
-    <div class="subtitle">
-        Practical ideas, resources and innovations shared by teachers, for teachers.
-    </div>
+  <h1>🍎 Teachers Help Teachers</h1>
+  <div class="subtitle">Practical ideas, resources and innovations shared by teachers, for teachers.</div>
 </header>
-
-<div class="container">
-
-    <p style="text-align:center;">
-        <a class="repo-button"
-           href="https://github.com/SallySmithInnovation/Teachers-Help-Teachers"
-           target="_blank">
-           📂 Visit the GitHub Repository
-        </a>
-    </p>
-
-    <input
-        type="text"
-        id="search"
-        placeholder="🔍 Search resources..."
-        onkeyup="searchResources()">
-
-    <div class="resources">
-
-        <div class="card resource">
-            <h2>☃️ Interactive Attendance Board</h2>
-
-            <p>
-                A fun classroom attendance activity built in PowerPoint.
-            </p>
-
-            <span class="tag">Microsoft</span>
-            <span class="tag">Attendance</span>
-            <span class="tag">Classroom Fun</span>
-
-            <p>
-                <a class="button"
-                   href="https://github.com/SallySmithInnovation/Teachers-Help-Teachers"
-                   target="_blank">
-                   📊 View Resource
-                </a>
-            </p>
-        </div>
-
-        <div class="card resource">
-            <h2>🌱 Sacred Spaces Garden Game</h2>
-
-            <p>
-                Explore, collect and learn in a colourful interactive garden.
-            </p>
-
-            <span class="tag">Game</span>
-            <span class="tag">Learning</span>
-            <span class="tag">Interactive</span>
-
-            <p>
-                <a class="button"
-                   href="sacred-spaces-garden-game.html">
-                   🎮 Play Game
-                </a>
-            </p>
-        </div>
-
-        <div class="card resource">
-            <h2>🏝️ Number Adventure Island</h2>
-
-            <p>
-                A bright Grade 2 math game focused on counting and number skills.
-            </p>
-
-            <span class="tag">Math</span>
-            <span class="tag">Grade 2</span>
-            <span class="tag">Game</span>
-
-            <p>
-                <a class="button"
-                   href="Number_Adventure_Island_Grade2_FIXED.html">
-                   🎮 Play Game
-                </a>
-            </p>
-        </div>
-
-    </div>
-
-</div>
-
-<footer>
-    ❤️ Made by educators. Shared with educators.
-</footer>
-
+<main class="container">
+  <p style="text-align:center">
+    <a class="repo-button" href="https://github.com/SallySmithInnovation/Teachers-Help-Teachers" target="_blank" rel="noopener noreferrer">📂 Visit the GitHub Repository</a>
+  </p>
+  <label for="search" style="display:block; margin-bottom:8px;">Find a teaching resource</label>
+  <input type="search" id="search" placeholder="🔍 Search resources, topics or file names...">
+  <h2 class="section-title">Interactive Activities</h2>
+  <div class="resources" id="activities">
+    <article class="card resource">
+      <h3>☃️ Interactive Attendance Board</h3>
+      <p>A fun classroom attendance activity built in PowerPoint.</p>
+      <span class="tag">Microsoft</span><span class="tag">Attendance</span><span class="tag">Classroom Fun</span>
+      <p><a class="button" href="https://github.com/SallySmithInnovation/Teachers-Help-Teachers" target="_blank" rel="noopener noreferrer">📊 View Resource</a></p>
+    </article>
+    <article class="card resource">
+      <h3>🌱 Sacred Spaces Garden Game</h3>
+      <p>Explore, collect and learn in a colourful interactive garden.</p>
+      <span class="tag">Game</span><span class="tag">Learning</span><span class="tag">Interactive</span>
+      <p><a class="button" href="sacred-spaces-garden-game.html">🎮 Play Game</a></p>
+    </article>
+    <article class="card resource">
+      <h3>🏝️ Number Adventure Island</h3>
+      <p>A bright Grade 2 math game focused on counting and number skills.</p>
+      <span class="tag">Math</span><span class="tag">Grade 2</span><span class="tag">Game</span>
+      <p><a class="button" href="Number_Adventure_Island_Grade2_FIXED.html">🎮 Play Game</a></p>
+    </article>
+  </div>
+  <h2 class="section-title">Downloadable Presentations</h2>
+  <p class="status" id="presentation-status" role="status">Loading presentations from GitHub...</p>
+  <div class="resources" id="presentations"></div>
+  <p class="status" id="search-status" role="status" hidden>No resources match your search.</p>
+</main>
+<footer>❤️ Made by educators. Shared with educators.</footer>
 <script>
-function searchResources() {
-    const search =
-        document.getElementById("search")
-        .value
-        .toLowerCase();
+  const owner = 'SallySmithInnovation';
+  const repo = 'Teachers-Help-Teachers';
+  const branch = 'main';
+  const presentationContainer = document.getElementById('presentations');
+  const presentationStatus = document.getElementById('presentation-status');
+  const searchInput = document.getElementById('search');
+  const searchStatus = document.getElementById('search-status');
+  const formats = /\.(pptx?|ppsx)$/i;
 
-    const resources =
-        document.querySelectorAll(".resource");
-
-    resources.forEach(resource => {
-        if (resource.innerText.toLowerCase().includes(search)) {
-            resource.style.display = "";
-        } else {
-            resource.style.display = "none";
-        }
+  function filterResources() {
+    const query = searchInput.value.trim().toLocaleLowerCase();
+    let visibleCount = 0;
+    document.querySelectorAll('.resource').forEach(card => {
+      const match = card.textContent.toLocaleLowerCase().includes(query);
+      card.hidden = !match;
+      if (match) visibleCount++;
     });
-}
-</script>
+    searchStatus.hidden = visibleCount !== 0;
+  }
+  searchInput.addEventListener('input', filterResources);
 
+  function displayName(path) {
+    return path.split('/').pop().replace(/\.(pptx?|ppsx)$/i, '').replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+
+  function downloadUrl(path) {
+    const encodedPath = path.split('/').map(encodeURIComponent).join('/');
+    return `https://github.com/${owner}/${repo}/raw/refs/heads/${branch}/${encodedPath}`;
+  }
+
+  async function loadPresentations() {
+    try {
+      const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`;
+      const response = await fetch(apiUrl, {headers: {'Accept':'application/vnd.github+json'}});
+      if (!response.ok) throw new Error(`GitHub returned ${response.status}`);
+      const data = await response.json();
+      if (data.truncated) throw new Error('GitHub could not return the complete file listing');
+      const presentations = (data.tree || [])
+        .filter(item => item.type === 'blob' && formats.test(item.path))
+        .sort((a,b) => displayName(a.path).localeCompare(displayName(b.path)));
+
+      presentationContainer.replaceChildren();
+      for (const file of presentations) {
+        const card = document.createElement('article');
+        card.className = 'card resource';
+        const title = document.createElement('h3');
+        title.textContent = `📊 ${displayName(file.path)}`;
+        const description = document.createElement('p');
+        description.textContent = 'PowerPoint presentation — download, edit and use in your classroom.';
+        const tag = document.createElement('span');
+        tag.className = 'tag';
+        tag.textContent = 'PowerPoint';
+        const folder = file.path.includes('/') ? file.path.split('/').slice(0,-1).join(' / ') : '';
+        const folderTag = document.createElement('span');
+        folderTag.className = 'tag';
+        folderTag.textContent = folder || 'Presentation';
+        const linkWrap = document.createElement('p');
+        const link = document.createElement('a');
+        link.className = 'button';
+        link.href = downloadUrl(file.path);
+        link.textContent = '⬇️ Download PowerPoint';
+        linkWrap.append(link);
+        card.append(title, description, tag, folderTag, linkWrap);
+        presentationContainer.append(card);
+      }
+      presentationStatus.textContent = presentations.length
+        ? `${presentations.length} presentation${presentations.length === 1 ? '' : 's'} available to download.`
+        : 'No PowerPoint files found yet. Upload a .pptx, .ppt or .ppsx file to your repository to see it here.';
+      filterResources();
+    } catch(error) {
+      console.error('Could not load presentations:', error);
+      presentationStatus.textContent = 'Presentations could not be loaded right now. You can browse and download them directly from the GitHub repository using the link above.';
+    }
+  }
+  loadPresentations();
+</script>
 </body>
 </html>
-``

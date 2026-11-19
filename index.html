@@ -55,6 +55,9 @@
       <p><a class="button" href="Number_Adventure_Island_Grade2_FIXED.html">🎮 Play Game</a></p>
     </article>
   </div>
+  <h2 class="section-title">Downloadable Applications</h2>
+  <p class="status" id="application-status" role="status">Loading downloadable applications from GitHub...</p>
+  <div class="resources" id="applications"></div>
   <h2 class="section-title">Downloadable Presentations</h2>
   <p class="status" id="presentation-status" role="status">Loading presentations from GitHub...</p>
   <div class="resources" id="presentations"></div>
@@ -65,11 +68,14 @@
   const owner = 'SallySmithInnovation';
   const repo = 'Teachers-Help-Teachers';
   const branch = 'main';
+  const applicationContainer = document.getElementById('applications');
+  const applicationStatus = document.getElementById('application-status');
   const presentationContainer = document.getElementById('presentations');
   const presentationStatus = document.getElementById('presentation-status');
   const searchInput = document.getElementById('search');
   const searchStatus = document.getElementById('search-status');
   const formats = /\.(pptx?|ppsx)$/i;
+  const applicationFormats = /\.zip$/i;
   const htmlFormats = /\.html?$/i;
   const originalGameLinks = Array.from(document.querySelectorAll('#activities a.button[href$=".html"]'));
   const gameCards = originalGameLinks.map(link => ({
@@ -153,7 +159,7 @@
   searchInput.addEventListener('input', filterResources);
 
   function displayName(path) {
-    return path.split('/').pop().replace(/\.(pptx?|ppsx)$/i, '').replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim();
+    return path.split('/').pop().replace(/\.(pptx?|ppsx|zip)$/i, '').replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim();
   }
 
   function downloadUrl(path) {
@@ -171,6 +177,38 @@
       const htmlFiles = (data.tree || [])
         .filter(item => item.type === 'blob' && htmlFormats.test(item.path) && !/(^|\/)index\.html?$/i.test(item.path));
       updateGameLinks(htmlFiles);
+      const applications = (data.tree || [])
+        .filter(item => item.type === 'blob' && applicationFormats.test(item.path))
+        .sort((a,b) => displayName(a.path).localeCompare(displayName(b.path)));
+      applicationContainer.replaceChildren();
+      for (const file of applications) {
+        const card = document.createElement('article');
+        card.className = 'card resource';
+        const title = document.createElement('h3');
+        const isBingo = /staffroom[-_ ]?bingo/i.test(file.path);
+        title.textContent = `📦 ${isBingo ? 'Staffroom Bingo' : displayName(file.path)}`;
+        const description = document.createElement('p');
+        description.textContent = isBingo
+          ? 'Download the reusable Staffroom Bingo application for deployment in your own school board environment.'
+          : 'Download this ZIP package for use in your own environment.';
+        const tag = document.createElement('span');
+        tag.className = 'tag';
+        tag.textContent = isBingo ? 'Staffroom Game' : 'Application';
+        const zipTag = document.createElement('span');
+        zipTag.className = 'tag';
+        zipTag.textContent = 'ZIP Download';
+        const wrap = document.createElement('p');
+        const link = document.createElement('a');
+        link.className = 'button';
+        link.href = downloadUrl(file.path);
+        link.textContent = '⬇️ Download Application';
+        wrap.append(link);
+        card.append(title, description, tag, zipTag, wrap);
+        applicationContainer.append(card);
+      }
+      applicationStatus.textContent = applications.length
+        ? `${applications.length} downloadable application${applications.length === 1 ? '' : 's'} available.`
+        : 'No ZIP files found yet.';
       const presentations = (data.tree || [])
         .filter(item => item.type === 'blob' && formats.test(item.path))
         .sort((a,b) => displayName(a.path).localeCompare(displayName(b.path)));
@@ -205,6 +243,7 @@
       filterResources();
     } catch(error) {
       console.error('Could not load presentations:', error);
+      applicationStatus.textContent = 'Applications could not be loaded right now. Use the GitHub repository link above to download ZIP files.';
       presentationStatus.textContent = 'Presentations could not be loaded right now. You can browse and download them directly from the GitHub repository using the link above.';
     }
   }

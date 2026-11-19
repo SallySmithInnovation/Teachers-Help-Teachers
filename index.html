@@ -70,6 +70,75 @@
   const searchInput = document.getElementById('search');
   const searchStatus = document.getElementById('search-status');
   const formats = /\.(pptx?|ppsx)$/i;
+  const htmlFormats = /\.html?$/i;
+  const originalGameLinks = Array.from(document.querySelectorAll('#activities a.button[href$=".html"]'));
+  const gameCards = originalGameLinks.map(link => ({
+    link,
+    title: link.closest('.card').querySelector('h3').textContent.replace(/^[^A-Za-z]+/, '').trim(),
+    originalPath: link.getAttribute('href')
+  }));
+
+  function pageUrl(path) {
+    return path.split('/').map(encodeURIComponent).join('/');
+  }
+
+  function normalized(text) {
+    return text.toLowerCase().replace(/\.html?$/i, '').replace(/[^a-z0-9]/g, '');
+  }
+
+  function matchGameFile(game, htmlFiles) {
+    const expected = normalized(game.originalPath);
+    const title = normalized(game.title);
+    const fileName = path => normalized(path.split('/').pop());
+    return htmlFiles.find(file => fileName(file.path) === expected)
+      || htmlFiles.find(file => fileName(file.path) === title)
+      || htmlFiles.find(file => fileName(file.path).includes('sacred') && title.includes('sacred'))
+      || htmlFiles.find(file => fileName(file.path).includes('numberadventure') && title.includes('numberadventure'))
+      || htmlFiles.find(file => {
+        const words = game.title.toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 3 && !['game','interactive'].includes(w));
+        return words.length > 0 && words.every(w => fileName(file.path).includes(w));
+      });
+  }
+
+  function updateGameLinks(htmlFiles) {
+    const matched = new Set();
+    for (const game of gameCards) {
+      const file = matchGameFile(game, htmlFiles);
+      if (file) {
+        game.link.href = pageUrl(file.path);
+        game.link.target = '_blank';
+        game.link.rel = 'noopener noreferrer';
+        matched.add(file.path);
+      } else {
+        // Preserve the original address rather than sending teachers to a GitHub code page.
+        game.link.href = pageUrl(game.originalPath);
+      }
+    }
+    // Additional HTML activities appear automatically, without changes to index.html.
+    for (const file of htmlFiles) {
+      if (matched.has(file.path)) continue;
+      const name = file.path.split('/').pop().replace(/\.html?$/i, '').replace(/[_-]+/g, ' ').trim();
+      const card = document.createElement('article');
+      card.className = 'card resource';
+      const title = document.createElement('h3');
+      title.textContent = `🎮 ${name}`;
+      const summary = document.createElement('p');
+      summary.textContent = 'Interactive activity — play directly in your browser.';
+      const tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.textContent = 'Interactive';
+      const wrap = document.createElement('p');
+      const link = document.createElement('a');
+      link.className = 'button';
+      link.textContent = '🎮 Play Game';
+      link.href = pageUrl(file.path);
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      wrap.append(link);
+      card.append(title, summary, tag, wrap);
+      document.getElementById('activities').append(card);
+    }
+  }
 
   function filterResources() {
     const query = searchInput.value.trim().toLocaleLowerCase();
@@ -99,6 +168,9 @@
       if (!response.ok) throw new Error(`GitHub returned ${response.status}`);
       const data = await response.json();
       if (data.truncated) throw new Error('GitHub could not return the complete file listing');
+      const htmlFiles = (data.tree || [])
+        .filter(item => item.type === 'blob' && htmlFormats.test(item.path) && !/(^|\/)index\.html?$/i.test(item.path));
+      updateGameLinks(htmlFiles);
       const presentations = (data.tree || [])
         .filter(item => item.type === 'blob' && formats.test(item.path))
         .sort((a,b) => displayName(a.path).localeCompare(displayName(b.path)));
